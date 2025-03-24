@@ -18,6 +18,7 @@ from semantic_kernel.functions import KernelPlugin, KernelFunctionFromPrompt, Ke
 
 from semantic_kernel.connectors.ai.azure_ai_inference import AzureAIInferenceChatCompletion
 from azure.ai.inference.aio import ChatCompletionsClient
+from azure.core.credentials import AzureKeyCredential
 from azure.identity.aio import DefaultAzureCredential
 
 from opentelemetry.trace import get_tracer
@@ -59,10 +60,13 @@ class DebateOrchestrator:
 
         endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
         api_version = os.getenv("AZURE_OPENAI_API_VERSION")
+        aoai_key = os.getenv("AZURE_OPENAI_API_KEY")
         executor_deployment_name = os.getenv("EXECUTOR_AZURE_OPENAI_DEPLOYMENT_NAME")
         utility_deployment_name = os.getenv("UTILITY_AZURE_OPENAI_DEPLOYMENT_NAME")
         
-        credential = DefaultAzureCredential()
+        # Use AzureKeyCredential instead of DefaultAzureCredential
+        # credential = DefaultAzureCredential()
+        credential = AzureKeyCredential(aoai_key)
         
         # Multi model setup - a service is an LLM in SK terms
         # Executor - gpt-4o 
@@ -74,7 +78,7 @@ class DebateOrchestrator:
                 endpoint=f"{str(endpoint).strip('/')}/openai/deployments/{executor_deployment_name}",
                 api_version=api_version,
                 credential=credential,
-                credential_scopes=["https://cognitiveservices.azure.com/.default"],
+                # credential_scopes=["https://cognitiveservices.azure.com/.default"],
             ))
         
         utility_service = AzureAIInferenceChatCompletion(
@@ -84,7 +88,7 @@ class DebateOrchestrator:
                 endpoint=f"{str(endpoint).strip('/')}/openai/deployments/{utility_deployment_name}",
                 api_version=api_version,
                 credential=credential,
-                credential_scopes=["https://cognitiveservices.azure.com/.default"],
+                # credential_scopes=["https://cognitiveservices.azure.com/.default"],
             ))
         
         self.kernel = Kernel(
