@@ -99,21 +99,47 @@ export aoaikeysecret="key"
 
 ## How it works
 
+### Environment Configuration
+
+Before running the application locally, you must set up the required environment variables. This step is critical for the app to function properly.
+
+#### Backend Environment Setup
+
+```bash
+cd src/backend
+cp sample.env .env
+```
+
+Then edit the `.env` file with your Azure OpenAI credentials.
+
+#### Frontend Environment Setup
+
+```bash
+cd src/frontend
+cp sample.env .env
+```
+
+Then edit the `.env` file with your configuration settings. This will ensure the frontend can properly connect to the backend API and use any required environment-specific settings.
+
+### Running the backend
+
+Open in another terminal
+```bash
+# Sync Python dependencies
+cd src/backend
+uv sync
+# Start the backend server with live reloading
+uv run uvicorn app:app --reload
+```
+
 ### Running the frontend 
 
+Open in one terminal
 ```bash
 cd src/frontend
 uv sync
 uv run streamlit run app.py
 ```
-### Running the backend
-
-  ```bash
-  # Sync Python dependencies
-  uv sync
-  # Start the backend server with live reloading
-  uv run uvicorn app:app --reload
-  ```
 
 ### Tracing
 
