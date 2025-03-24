@@ -20,7 +20,9 @@ The core architecture components based on Semantic Kernel abstractions:
 
    - **Speaker Selection Strategy** (Green Box):
      - This component determines which agent (WRITER or CRITIC) "speaks" next.
-     - It ensures productive collaboration by regulating the flow of interaction between the agents and preventing redundant actions.
+     - It ensures productive collaboration by regulating the flow of interac    cd src/frontend
+    uv sync
+    uv run streamlit app.pytion between the agents and preventing redundant actions.
    - **WRITER Agent**: provides the initial proposal and the subsequent revisions following the direction from critic.
    - **CRITIC Agent**: evaluates the text and provides constructive feedback to drive readibility and popularity of the post. Provides scoring across a number of categories and a final score.
    - **Chat Termination Strategy** (Red Box):
@@ -102,7 +104,7 @@ export aoaikeysecret="key"
 ```bash
 cd src/frontend
 uv sync
-uv run streamlit app.py
+uv run streamlit run app.py
 ```
 ### Running the backend
 
